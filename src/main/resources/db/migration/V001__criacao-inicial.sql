@@ -1,11 +1,11 @@
 CREATE TABLE restaurant_schema.cozinha (
-	id BIGSERIAL NOT NULL,
+	id BIGSERIAL,
     nome VARCHAR(60) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE restaurant_schema.restaurante (
-	id BIGSERIAL NOT NULL,
+	id BIGSERIAL,
     email_owner VARCHAR(100) NOT NULL,
     nome VARCHAR(80) NOT NULL,
     taxa_frete NUMERIC(38,2) NOT NULL,
