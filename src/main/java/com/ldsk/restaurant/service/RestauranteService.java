@@ -18,6 +18,7 @@ import jakarta.persistence.EntityExistsException;
 public class RestauranteService {
 	
 	private static final String ERRO_REQUISICAO = "Erro na requisição";
+	private static final String ERRO_SERVIDOR = "Erro no processamento da requisição";
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
@@ -55,6 +56,8 @@ public class RestauranteService {
 		
 		try {
 			
+			if(restaurante.getId() == null) restaurante.setId(0L); 
+				
 			Optional<Restaurante> restauranteOptional = restauranteRepository.findById(restaurante.getId());
 			
 			if(restauranteOptional.isEmpty()) {
@@ -70,7 +73,7 @@ public class RestauranteService {
 					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			
-			throw new RestauranteException(e.getLocalizedMessage(), ERRO_REQUISICAO);
+			throw new RestauranteException(e.getLocalizedMessage(), ERRO_SERVIDOR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
