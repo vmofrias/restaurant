@@ -25,6 +25,7 @@ public class ApiExceptionHandler {
 	private static final String REQUISICAO_INCORRETA = "Erro na requisição";
 	private static final String REQUISICAO_PROCESSAMENTO_ERRO = "Erro ao processar a requisição. Mensagem: {}";
 	
+	@ExceptionHandler(RestauranteException.class)
 	public ResponseEntity<ApiExceptionDetailsVo> handleRestauranteException(RestauranteException restauranteException) {
 		
 		log.error(REQUISICAO_PROCESSAMENTO_ERRO, restauranteException.getMessage());
@@ -36,6 +37,20 @@ public class ApiExceptionHandler {
 					.details(restauranteException.getDetails())
 					.timestamp(LocalDateTime.now()).build(),
 					restauranteException.getHttpStatus());
+	}
+	
+	@ExceptionHandler(CozinhaException.class)
+	public ResponseEntity<ApiExceptionDetailsVo> handleCozinhaException(CozinhaException cozinhaException) {
+		
+		log.error(REQUISICAO_PROCESSAMENTO_ERRO, cozinhaException.getMessage());
+		
+		return new ResponseEntity<>(
+				ApiExceptionDetailsVo.builder().title(cozinhaException.getTitle())
+					.httpStatus(cozinhaException.getHttpStatus().value())
+					.message(cozinhaException.getMessage())
+					.details(cozinhaException.getDetails())
+					.timestamp(LocalDateTime.now()).build(),
+					cozinhaException.getHttpStatus());
 	}
 	
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
