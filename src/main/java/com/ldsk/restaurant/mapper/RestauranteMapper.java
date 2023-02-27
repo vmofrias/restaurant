@@ -13,8 +13,23 @@ public class RestauranteMapper {
 	
 	@Autowired
 	private CozinhaService cozinhaService;
-
+	
 	public Restaurante toRestaurante(RestauranteDto restauranteDto) {
+		
+		return Restaurante.builder()
+				.emailOwner(restauranteDto.getEmailOwner())
+				.nome(restauranteDto.getNome())
+				.taxaFrete(restauranteDto.getTaxaFrete())
+				.cozinha(
+						Cozinha
+						.builder()
+						.nome(restauranteDto.getNome())
+						.build()
+						)
+				.build();
+	}
+
+	public Restaurante toRestauranteWithCozinhaSearch(RestauranteDto restauranteDto) {
 		
 		Cozinha cozinha = cozinhaService.getCozinhaByNome(restauranteDto.getNomeCozinha());
 		
