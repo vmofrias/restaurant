@@ -75,7 +75,6 @@ public class RestauranteService {
 			
 			throw new RestauranteException(e.getLocalizedMessage(), ERRO_SERVIDOR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 	
 }
