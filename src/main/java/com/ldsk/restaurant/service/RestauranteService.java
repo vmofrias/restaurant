@@ -19,6 +19,7 @@ public class RestauranteService {
 	
 	private static final String ERRO_REQUISICAO = "Erro na requisição";
 	private static final String ERRO_SERVIDOR = "Erro no processamento da requisição";
+	private static final String RESTAURANTE_DELETED_MESSAGE = "Restaurante com id %d deletado com sucesso!";
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
@@ -70,6 +71,54 @@ public class RestauranteService {
 		} catch (EntityExistsException e) {
 			
 			throw new RestauranteException(String.format("Não foi possível adicionar este restaurante pois o id %d já existe.", restaurante.getId()),
+					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			
+			throw new RestauranteException(e.getLocalizedMessage(), ERRO_SERVIDOR, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	public Restaurante updateRestaurante(Restaurante restaurante) {
+		
+		try {
+			
+			Optional<Restaurante> restauranteOptional = restauranteRepository.findById(restaurante.getId());
+			
+			if(restauranteOptional.isPresent()) {
+				
+				return restauranteRepository.save(restaurante);
+			} else {
+				
+				throw new NoSuchElementException();
+			}
+		} catch (NoSuchElementException e) {
+			
+			throw new RestauranteException(String.format("Não existe um restaurante com id %d para ser atualizado.", restaurante.getId()),
+					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+
+			throw new RestauranteException(e.getLocalizedMessage(), ERRO_SERVIDOR, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	public String deleteRestauranteById(Restaurante restaurante) {
+		
+		try {
+			
+			Optional<Restaurante> restauranteOptional = restauranteRepository.findById(restaurante.getId());
+			
+			if(restauranteOptional.isPresent()) {
+				
+				restauranteRepository.deleteById(restaurante.getId());
+				
+				return String.format(RESTAURANTE_DELETED_MESSAGE, restaurante.getId());
+			} else {
+				
+				throw new NoSuchElementException();
+			}
+		} catch (NoSuchElementException e) {
+			
+			throw new RestauranteException(String.format("Não existe um restaurante com id %d para ser deletado.", restaurante.getId()),
 					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			
