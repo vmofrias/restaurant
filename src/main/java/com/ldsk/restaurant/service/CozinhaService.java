@@ -1,5 +1,6 @@
 package com.ldsk.restaurant.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -18,6 +19,11 @@ public class CozinhaService {
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	public List<Cozinha> getCozinhas() {
+		
+		return cozinhaRepository.findAll();
+	}
 
 	public Cozinha getCozinhaByNome(String nome) {
 		
