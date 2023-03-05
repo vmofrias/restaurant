@@ -12,7 +12,7 @@
 	
 	<groupId>com.ldsk</groupId>
 	<artifactId>restaurant</artifactId>
-	<version>2023.02.19.a-SNAPSHOT</version>
+	<version>2023.03.05.a-SNAPSHOT</version>
 	<name>restaurant</name>
 	<description>Basic restaurant project for training</description>
 	
