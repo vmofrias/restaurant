@@ -36,21 +36,21 @@ public class CozinhaController {
 	}
 	
 	@PostMapping(value = "/nome")
-	public ResponseEntity<CozinhaDto> listByName(@RequestBody CozinhaDto cozinhaDto) {
+	public ResponseEntity<CozinhaIdDto> listByName(@RequestBody CozinhaDto cozinhaDto) {
 		
-		CozinhaDto cozinhaResponseDto = cozinhaMapper.toCozinhaDto(
+		CozinhaIdDto cozinhaResponseIdDto = cozinhaMapper.toCozinhaIdDto(
 				cozinhaService.getCozinhaByNome(cozinhaMapper.toCozinha(cozinhaDto)));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponseDto);
+		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponseIdDto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<CozinhaDto> addCozinha(@RequestBody CozinhaDto cozinhaDto) {
+	public ResponseEntity<CozinhaIdDto> addCozinha(@RequestBody CozinhaDto cozinhaDto) {
 		
-		CozinhaDto cozinhaResponseDto = cozinhaMapper.toCozinhaDto(
+		CozinhaIdDto cozinhaResponseIdDto = cozinhaMapper.toCozinhaIdDto(
 				cozinhaService.addCozinha(cozinhaMapper.toCozinha(cozinhaDto)));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaResponseDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaResponseIdDto);
 	}
 	
 	@PutMapping

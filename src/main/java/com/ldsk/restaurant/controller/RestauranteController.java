@@ -36,21 +36,21 @@ public class RestauranteController {
 	}
 	
 	@PostMapping(value = "/nome")
-	public ResponseEntity<RestauranteDto> listByName(@RequestBody RestauranteDto restauranteDto) {
+	public ResponseEntity<RestauranteIdDto> listByName(@RequestBody RestauranteDto restauranteDto) {
 		
-		RestauranteDto restauranteResponseDto = restauranteMapper.toRestauranteDto(
+		RestauranteIdDto restauranteResponseIdDto = restauranteMapper.toRestauranteIdDto(
 				restauranteService.getRestaurantByNome(restauranteMapper.toRestaurante(restauranteDto)));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponseDto);
+		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponseIdDto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<RestauranteDto> addRestaurante(@RequestBody RestauranteDto restauranteDto) {
+	public ResponseEntity<RestauranteIdDto> addRestaurante(@RequestBody RestauranteDto restauranteDto) {
 		
-		RestauranteDto restauranteResponseDto = restauranteMapper.toRestauranteDto(
+		RestauranteIdDto restauranteResponseIdDto = restauranteMapper.toRestauranteIdDto(
 				restauranteService.addRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteDto)));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(restauranteResponseDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(restauranteResponseIdDto);
 	}
 	
 	@PutMapping
