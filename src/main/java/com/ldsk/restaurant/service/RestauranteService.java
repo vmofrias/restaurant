@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +72,10 @@ public class RestauranteService {
 		} catch (EntityExistsException e) {
 			
 			throw new RestauranteException(String.format("Não foi possível adicionar este restaurante pois o id %d já existe.", restaurante.getId()),
+					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
+		} catch (DataIntegrityViolationException e) {
+			
+			throw new RestauranteException(String.format("O restaurante com o nome %s já existe.", restaurante.getNome()),
 					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			

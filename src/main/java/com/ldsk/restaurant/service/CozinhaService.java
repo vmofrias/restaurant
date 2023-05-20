@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +76,10 @@ public class CozinhaService {
 		} catch (EntityExistsException e) {
 			
 			throw new CozinhaException(String.format("Não foi possível adicionar esta cozinha pois o id %d já existe.", cozinha.getId()),
+					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
+		} catch (DataIntegrityViolationException e) {
+			
+			throw new CozinhaException(String.format("A cozinha %s já existe.", cozinha.getNome()),
 					ERRO_REQUISICAO, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			
