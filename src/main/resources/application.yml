@@ -1,11 +1,25 @@
-# datasource
-spring.datasource.driverClassName=org.postgresql.Driver
-spring.datasource.url= jdbc:postgresql://localhost:5432/restaurant
-spring.datasource.username = ${db_user}
-spring.datasource.password = ${db_password}
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/datatest
+    schemas: restaurant_schema
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/restaurant
+    username: ${db_user}
+    password: ${db_password}
+    driverClassName: org.postgresql.Driver
+    hikari:
+      idle-timeout: 10000
+      maximum-pool-size: 20
+      minimum-idle: 10
 
-# jpa
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+## Useful properties     
+#
 
 #spring.jpa.generate-ddl=true
 #spring.jpa.hibernate.ddl-auto=update
@@ -13,13 +27,3 @@ spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 #spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
 #spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=src/main/resources/sql/ddl.sql
 
-spring.flyway.schemas=restaurant_schema
-spring.flyway.locations=classpath:db/migration,classpath:db/datatest
-
-spring.jpa.properties.hibernate.show_sql=true
-spring.jpa.properties.hibernate.format_sql=true
-
-# hikari
-spring.datasource.hikari.minimum-idle=10
-spring.datasource.hikari.maximum-pool-size=20
-spring.datasource.hikari.idle-timeout=10000
