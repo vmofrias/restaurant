@@ -33,7 +33,7 @@ public class Restaurante {
 	@Column(nullable = false)
 	private String emailOwner;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String nome;
 	
 	@Column(name = "taxa_frete", nullable = false)
