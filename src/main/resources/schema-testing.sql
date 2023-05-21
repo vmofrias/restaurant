@@ -1,0 +1,27 @@
+CREATE SCHEMA IF NOT EXISTS restaurant_schema;
+
+CREATE TABLE restaurant_schema.cozinha (
+	id BIGSERIAL,
+    nome VARCHAR(60) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE restaurant_schema.restaurante (
+	id BIGSERIAL,
+    email_owner VARCHAR(100) NOT NULL,
+    nome VARCHAR(80) NOT NULL,
+    taxa_frete NUMERIC(38,2) NOT NULL,
+    cozinha_id BIGINT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE IF EXISTS restaurant_schema.restaurante 
+ADD CONSTRAINT fk_restaurante_cozinha
+FOREIGN KEY (cozinha_id) 
+REFERENCES restaurant_schema.cozinha;
+
+ALTER TABLE IF EXISTS restaurant_schema.restaurante 
+ADD CONSTRAINT unique_restaurante_nome UNIQUE (nome);
+
+ALTER TABLE IF EXISTS restaurant_schema.cozinha 
+ADD CONSTRAINT unique_cozinha_nome UNIQUE (nome);
