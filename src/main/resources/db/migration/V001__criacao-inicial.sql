@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS restaurant_schema;
+
 CREATE TABLE restaurant_schema.cozinha (
 	id BIGSERIAL,
     nome VARCHAR(60) NOT NULL,
