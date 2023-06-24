@@ -14,7 +14,7 @@ import com.ldsk.restaurant.model.Cozinha;
 
 @DataJpaTest
 @ActiveProfiles("testing")
-class CozinhaRepositoryTest {
+class CozinhaRepositoryTests {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
@@ -40,6 +40,46 @@ class CozinhaRepositoryTest {
 		Assertions.assertThat(savedCozinha).isNotNull();
 		Assertions.assertThat(savedCozinha.getId()).isPositive();
 	}
+
+	@Test
+	void itShouldUpdateCozinha() {
+		
+		// given
+		Cozinha cozinha = Cozinha.builder()
+			.nome("Cozinha")
+			.build();
+		
+		// when
+		Cozinha savedCozinha = cozinhaRepository.save(cozinha);
+		
+		savedCozinha.setNome("kitchen");
+		
+		Cozinha updatedCozinha = cozinhaRepository.save(savedCozinha);
+		
+		// then
+		Assertions.assertThat(savedCozinha).isNotNull();
+		Assertions.assertThat(updatedCozinha).isNotNull();
+		Assertions.assertThat(savedCozinha.getId()).isPositive();
+		Assertions.assertThat(updatedCozinha.getId()).isPositive();
+	}
+	
+	@Test
+	void itShouldDeleteCozinha() {
+		
+		// given
+		Cozinha cozinha = Cozinha.builder()
+			.nome("Cozinha")
+			.build();
+		
+		// when
+		Cozinha savedCozinha = cozinhaRepository.save(cozinha);
+		
+		cozinhaRepository.deleteById(savedCozinha.getId());
+		Optional<Cozinha> cozinhaReturn = cozinhaRepository.findById(savedCozinha.getId());
+		
+		// then
+		Assertions.assertThat(cozinhaReturn).isEmpty();
+	}
 	
 	@Test
 	void itShouldFindByNome() {
@@ -54,6 +94,7 @@ class CozinhaRepositoryTest {
 		Optional<Cozinha> cozinhaOptional = cozinhaRepository.findByNome(cozinha.getNome());
 		
 		// then
+		Assertions.assertThat(cozinhaOptional).isNotNull();
 		Assertions.assertThat(cozinhaOptional.get().getNome()).isEqualTo("Africana");
 	}
 	
