@@ -13,13 +13,3 @@ spring:
       idle-timeout: 10000
       maximum-pool-size: 20
       minimum-idle: 10
-
-## Useful properties     
-#
-
-#spring.jpa.generate-ddl=true
-#spring.jpa.hibernate.ddl-auto=update
-
-#spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
-#spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=src/main/resources/sql/ddl.sql
-

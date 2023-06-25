@@ -1,0 +1,15 @@
+## Useful properties     
+#
+
+spring:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      javax:
+        persistence:
+          schema-genetarion:
+            scripts:
+              action: create
+              create-target: src/main/resources/sql/ddl.sql  
