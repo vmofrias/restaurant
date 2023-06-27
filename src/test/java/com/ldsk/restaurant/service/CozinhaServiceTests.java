@@ -30,7 +30,7 @@ class CozinhaServiceTests {
 	private CozinhaService cozinhaService;
 	
 	@AfterEach
-	void tearDown() {
+	void init() {
 		
 		cozinhaRepository.deleteAll();
 	}
