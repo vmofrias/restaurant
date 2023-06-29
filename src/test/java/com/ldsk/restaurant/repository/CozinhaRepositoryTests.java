@@ -19,7 +19,7 @@ class CozinhaRepositoryTests {
 	private CozinhaRepository cozinhaRepository;
 	
 	@AfterEach
-	void tearDown() {
+	void init() {
 		
 		cozinhaRepository.deleteAll();
 	}
