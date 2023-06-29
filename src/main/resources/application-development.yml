@@ -5,7 +5,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/restaurant
+    url: jdbc:postgresql://${db_host:localhost}:5432/${db_name:restaurant}
     username: ${db_user}
     password: ${db_password}
     driverClassName: org.postgresql.Driver
