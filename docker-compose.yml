@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  postgres-db:
+    image: docker.io/library/postgres:15.2-alpine
+    container_name: postgres-db
+    env_file:
+      - ./config/default-container.env
+      - ./config/postgres-db.env
+    ports:
+      - 5432:5432
+    volumes:
+      - /home/${USER}/container/postgres/data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/locatime:ro
