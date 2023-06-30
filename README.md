@@ -27,7 +27,7 @@ Caso queira executar o *PostgreSQL* via container pelo docker-compose, você vai
 
 ### Restaurant Application
 
-Para rodar essa aplicação, você vai precisar definir os valores das seguintes variáveis de ambiente no local em que irá executá-la. 
+Para rodar essa aplicação, você vai precisar definir os valores das seguintes variáveis de ambiente no local de execução do projeto. 
 
 | *APPLICATION*  |  *DESCRIÇÃO* |
 |---|---|
