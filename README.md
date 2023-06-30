@@ -1,7 +1,7 @@
 
 # Projeto Restaurante
 
-Projeto básico com foco nas boas práticas, tratamento de exceptions, testes e segurança. 
+Projeto básico com foco nas boas práticas, tratamento de exceptions, testes automatizados e segurança. 
 
 ## Pré-requisitos
 
@@ -27,7 +27,7 @@ Caso queira executar o *PostgreSQL* via container pelo docker-compose, você vai
 
 ### Restaurant Application
 
-Para rodar essa aplicação, você vai precisar definir os valores das seguintes variáveis de ambiente no local em que você irá executá-lo. 
+Para rodar essa aplicação, você vai precisar definir os valores das seguintes variáveis de ambiente no local em que irá executá-la. 
 
 | *APPLICATION*  |  *DESCRIÇÃO* |
 |---|---|
@@ -40,7 +40,19 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 #### - Caso não tenha configurado um novo usuário no banco de dados, insira as credenciais do Super Usuário que foi criado quando a imagem do *PostgreSQL* foi iniciada.
 
-## Como subir a aplicação
+## Como subir o PostgreSQL
+
+#### - Digite o seguinte comando utilizando o docker-compose.yml:
+
+```bash
+  docker compose up postgres-db
+```
+
+#### ou
+
+#### - Utilize-o em seu modo nativo fazendo o download do mesmo em [PostgreSQL Downloads](https://www.postgresql.org/download/). 
+
+## Como subir o Restaurant Application
 
 #### - Faça o build da aplicação com o *Maven*:
 
