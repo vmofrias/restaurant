@@ -36,7 +36,7 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 |  `db_user` | Define o nome do usuário que irá fazer acesso ao banco de dados.  |  
 | `db_password`  | Define a senha deste usuário. |
 
-#### - Os valores *default* para as variáveis `db_host` e `db_name` são `localhost` e `restaurant`, respectivamente.
+#### - Os valores *default* para as variáveis `db_host` e `db_name`, são `localhost` e `restaurant`, respectivamente.
 
 #### - Caso não tenha configurado um novo usuário no banco de dados, insira as credenciais do Super Usuário que foi criado quando a imagem do *PostgreSQL* foi iniciada.
 
