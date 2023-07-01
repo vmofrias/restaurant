@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RestauranteIdDto {
+public class RestauranteResponseDto {
 	
 	private Long id;
 

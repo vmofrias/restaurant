@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CozinhaDeleteRequestDto {
+public class RestauranteDeleteRequestDto {
 
 	@NotNull(message = "Campo id é obrigatório")
 	private Long id;

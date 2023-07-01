@@ -1,10 +1,15 @@
 package com.ldsk.restaurant.mapper;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ldsk.restaurant.dto.RestauranteDto;
-import com.ldsk.restaurant.dto.RestauranteIdDto;
+import com.ldsk.restaurant.dto.RestauranteAddRequestDto;
+import com.ldsk.restaurant.dto.RestauranteDeleteRequestDto;
+import com.ldsk.restaurant.dto.RestauranteNameRequestDto;
+import com.ldsk.restaurant.dto.RestauranteResponseDto;
+import com.ldsk.restaurant.dto.RestauranteUpdateRequestDto;
 import com.ldsk.restaurant.model.Cozinha;
 import com.ldsk.restaurant.model.Restaurante;
 import com.ldsk.restaurant.service.CozinhaService;
@@ -15,74 +20,60 @@ public class RestauranteMapper {
 	@Autowired
 	private CozinhaService cozinhaService;
 	
-	public Restaurante toRestaurante(RestauranteDto restauranteDto) {
+	public Restaurante toRestaurante(RestauranteNameRequestDto restauranteNameRequestDto) {
 		
 		return Restaurante.builder()
-				.emailOwner(restauranteDto.getEmailOwner())
-				.nome(restauranteDto.getNome())
-				.taxaFrete(restauranteDto.getTaxaFrete())
-				.cozinha(
-						Cozinha
-						.builder()
-						.nome(restauranteDto.getNome())
-						.build()
-						)
+				.nome(restauranteNameRequestDto.getNome())
 				.build();
 	}
 	
-	public Restaurante toRestaurante(RestauranteIdDto restauranteIdDto) {
+	public Restaurante toRestauranteWithCozinhaSearch(RestauranteAddRequestDto restauranteAddRequestDto) {
+		
+		Cozinha cozinha = cozinhaService.getCozinhaByNome(restauranteAddRequestDto.getNomeCozinha());
 		
 		return Restaurante.builder()
-				.id(restauranteIdDto.getId())
-				.build();
-	}
-
-	public Restaurante toRestauranteWithCozinhaSearch(RestauranteDto restauranteDto) {
-		
-		Cozinha cozinha = cozinhaService.getCozinhaByNome(restauranteDto.getNomeCozinha());
-		
-		return Restaurante.builder()
-				.emailOwner(restauranteDto.getEmailOwner())
-				.nome(restauranteDto.getNome())
-				.taxaFrete(restauranteDto.getTaxaFrete())
+				.id(restauranteAddRequestDto.getId())
+				.emailOwner(restauranteAddRequestDto.getEmailOwner())
+				.nome(restauranteAddRequestDto.getNome())
+				.taxaFrete(restauranteAddRequestDto.getTaxaFrete())
 				.cozinha(cozinha)
 				.build();
 	}
 	
-	public Restaurante toRestauranteWithCozinhaSearch(RestauranteIdDto restauranteIdDto) {
+	public Restaurante toRestauranteWithCozinhaSearch(RestauranteUpdateRequestDto restauranteUpdateRequestDto) {
 		
-		Cozinha cozinha = cozinhaService.getCozinhaByNome(restauranteIdDto.getNomeCozinha());
+		Cozinha cozinha = cozinhaService.getCozinhaByNome(restauranteUpdateRequestDto.getNomeCozinha());
 		
 		return Restaurante.builder()
-				.id(restauranteIdDto.getId())
-				.emailOwner(restauranteIdDto.getEmailOwner())
-				.nome(restauranteIdDto.getNome())
-				.taxaFrete(restauranteIdDto.getTaxaFrete())
+				.id(restauranteUpdateRequestDto.getId())
+				.emailOwner(restauranteUpdateRequestDto.getEmailOwner())
+				.nome(restauranteUpdateRequestDto.getNome())
+				.taxaFrete(restauranteUpdateRequestDto.getTaxaFrete())
 				.cozinha(cozinha)
 				.build();
 	}
 	
-	public RestauranteDto toRestauranteDto(Restaurante restaurante) {
+	public Restaurante toRestaurante(RestauranteDeleteRequestDto restauranteDeleteRequestDto) {
 		
-		return RestauranteDto
-				.builder()
-				.emailOwner(restaurante.getEmailOwner())
-				.nome(restaurante.getNome())
-				.taxaFrete(restaurante.getTaxaFrete())
-				.nomeCozinha(restaurante.getCozinha().getNome())
+		return Restaurante.builder()
+				.id(restauranteDeleteRequestDto.getId())
 				.build();
 	}
 	
-	public RestauranteIdDto toRestauranteIdDto(Restaurante restaurante) {
+	public RestauranteResponseDto toRestauranteResponseDto(Restaurante restaurante) {
 		
-		return RestauranteIdDto
-				.builder()
+		return RestauranteResponseDto.builder()
 				.id(restaurante.getId())
 				.emailOwner(restaurante.getEmailOwner())
 				.nome(restaurante.getNome())
 				.taxaFrete(restaurante.getTaxaFrete())
 				.nomeCozinha(restaurante.getCozinha().getNome())
 				.build();
+	}
+	
+	public List<RestauranteResponseDto> toRestauranteListResponseDto(List<Restaurante> restauranteList) {
+		
+		return restauranteList.stream().map(this::toRestauranteResponseDto).toList();
 	}
 	
 }
