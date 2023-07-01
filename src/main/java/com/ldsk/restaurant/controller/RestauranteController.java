@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ldsk.restaurant.dto.RestauranteDto;
-import com.ldsk.restaurant.dto.RestauranteIdDto;
+import com.ldsk.restaurant.dto.RestauranteAddRequestDto;
+import com.ldsk.restaurant.dto.RestauranteDeleteRequestDto;
+import com.ldsk.restaurant.dto.RestauranteNameRequestDto;
+import com.ldsk.restaurant.dto.RestauranteResponseDto;
+import com.ldsk.restaurant.dto.RestauranteUpdateRequestDto;
 import com.ldsk.restaurant.mapper.RestauranteMapper;
-import com.ldsk.restaurant.model.Restaurante;
 import com.ldsk.restaurant.service.RestauranteService;
 
 @RestController
@@ -30,43 +32,43 @@ public class RestauranteController {
 	private RestauranteMapper restauranteMapper;
 	
 	@GetMapping
-	public ResponseEntity<List<Restaurante>> listAll() {
+	public ResponseEntity<List<RestauranteResponseDto>> listAll() {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(restauranteService.getRestaurantes());
+		return ResponseEntity.status(HttpStatus.OK).body(restauranteMapper.toRestauranteListResponseDto(restauranteService.getRestaurantes()));
 	}
 	
 	@PostMapping(value = "/nome")
-	public ResponseEntity<RestauranteIdDto> listByName(@RequestBody RestauranteDto restauranteDto) {
+	public ResponseEntity<RestauranteResponseDto> listByName(@RequestBody RestauranteNameRequestDto restauranteNameRequestDto) {
 		
-		RestauranteIdDto restauranteResponseIdDto = restauranteMapper.toRestauranteIdDto(
-				restauranteService.getRestaurantByNome(restauranteMapper.toRestaurante(restauranteDto)));
+		RestauranteResponseDto restauranteResponseDto = restauranteMapper.toRestauranteResponseDto(
+				restauranteService.getRestaurantByNome(restauranteMapper.toRestaurante(restauranteNameRequestDto)));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponseIdDto);
+		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponseDto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<RestauranteIdDto> addRestaurante(@RequestBody RestauranteDto restauranteDto) {
+	public ResponseEntity<RestauranteResponseDto> addRestaurante(@RequestBody RestauranteAddRequestDto restauranteAddRequestDto) {
 		
-		RestauranteIdDto restauranteResponseIdDto = restauranteMapper.toRestauranteIdDto(
-				restauranteService.addRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteDto)));
+		RestauranteResponseDto restauranteResponseDto = restauranteMapper.toRestauranteResponseDto(
+				restauranteService.addRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteAddRequestDto)));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(restauranteResponseIdDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(restauranteResponseDto);
 	}
 	
 	@PutMapping
-	public ResponseEntity<RestauranteIdDto> updateRestaurante(@RequestBody RestauranteIdDto restauranteIdDto) {
+	public ResponseEntity<RestauranteResponseDto> updateRestaurante(@RequestBody RestauranteUpdateRequestDto restauranteUpdateRequestDto) {
 		
-		RestauranteIdDto restauranteResponseIdDto = restauranteMapper.toRestauranteIdDto(
-				restauranteService.updateRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteIdDto)));
+		RestauranteResponseDto restauranteResponseDto = restauranteMapper.toRestauranteResponseDto(
+				restauranteService.updateRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteUpdateRequestDto)));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponseIdDto);
+		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponseDto);
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<String> deleteRestauranteById(@RequestBody RestauranteIdDto restauranteIdDto) {
+	public ResponseEntity<String> deleteRestauranteById(@RequestBody RestauranteDeleteRequestDto restauranteDeleteRequestDto) {
 		
 		String restauranteResponse = restauranteService
-				.deleteRestauranteById(restauranteMapper.toRestaurante(restauranteIdDto));
+				.deleteRestauranteById(restauranteMapper.toRestaurante(restauranteDeleteRequestDto));
 			
 		return ResponseEntity.status(HttpStatus.OK).body(restauranteResponse);
 	}
