@@ -1,6 +1,9 @@
 DELETE FROM restaurant_schema.restaurante;
 DELETE FROM restaurant_schema.cozinha;
 
+ALTER SEQUENCE restaurant_schema.restaurante_id_seq RESTART 1;
+ALTER SEQUENCE restaurant_schema.cozinha_id_seq RESTART 1;
+
 INSERT INTO restaurant_schema.cozinha(nome) VALUES ('Brasileira');
 INSERT INTO restaurant_schema.cozinha(nome) VALUES ('Japonesa');
 INSERT INTO restaurant_schema.cozinha(nome) VALUES ('Italiana');
