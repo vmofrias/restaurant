@@ -73,5 +73,4 @@ public class CozinhaController {
 		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponse);
 	}
 	
-	
 }
