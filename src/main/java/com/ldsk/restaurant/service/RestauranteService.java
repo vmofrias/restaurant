@@ -58,8 +58,6 @@ public class RestauranteService {
 		
 		try {
 			
-			if(restaurante.getId() == null) restaurante.setId(0L); 
-				
 			Optional<Restaurante> restauranteOptional = restauranteRepository.findById(restaurante.getId());
 			
 			if(restauranteOptional.isEmpty()) {
