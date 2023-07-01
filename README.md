@@ -54,6 +54,8 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 ## Como subir o Restaurant Application
 
+#### - Clone o projeto com o Git e navegue até o diretório do mesmo.
+
 #### - Faça o build da aplicação com o *Maven*:
 
 ```bash
@@ -81,4 +83,4 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 ### Notas da versão do projeto (2023.03.05.a) - 
 
 * Adicionada documentação do projeto e API (Swagger).
-* Implementados testes unitários e de integração.
+* Implementação de testes unitários iniciais das camadas service e repository.
