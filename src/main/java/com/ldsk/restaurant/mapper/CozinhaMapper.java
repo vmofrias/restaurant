@@ -1,53 +1,60 @@
 package com.ldsk.restaurant.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import com.ldsk.restaurant.dto.CozinhaDto;
-import com.ldsk.restaurant.dto.CozinhaIdDto;
-import com.ldsk.restaurant.dto.RestauranteIdDto;
+import com.ldsk.restaurant.dto.CozinhaAddRequestDto;
+import com.ldsk.restaurant.dto.CozinhaUpdateRequestDto;
+import com.ldsk.restaurant.dto.CozinhaDeleteRequestDto;
+import com.ldsk.restaurant.dto.CozinhaNameRequestDto;
+import com.ldsk.restaurant.dto.CozinhaResponseDto;
 import com.ldsk.restaurant.model.Cozinha;
-import com.ldsk.restaurant.model.Restaurante;
 
 @Component
 public class CozinhaMapper {
 	
-	public Cozinha toCozinha(CozinhaDto cozinhaDto) {
+	public Cozinha toCozinha(CozinhaNameRequestDto cozinhaNameRequestDto) {
 		
 		return Cozinha.builder()
-				.nome(cozinhaDto.getNome())
+				.nome(cozinhaNameRequestDto.getNome())
 				.build();
 	}
 	
-	public Cozinha toCozinha(CozinhaIdDto cozinhaIdDto) {
+	public Cozinha toCozinha(CozinhaAddRequestDto cozinhaAddRequestDto) {
 		
 		return Cozinha.builder()
-				.id(cozinhaIdDto.getId())
-				.nome(cozinhaIdDto.getNome())
+				.id(cozinhaAddRequestDto.getId())
+				.nome(cozinhaAddRequestDto.getNome())
 				.build();
 	}
 	
-	public Restaurante toRestaurante(RestauranteIdDto restauranteIdDto) {
+	public Cozinha toCozinha(CozinhaUpdateRequestDto cozinhaUpdateRequestDto) {
 		
-		return Restaurante.builder()
-				.id(restauranteIdDto.getId())
-				.build();
-	}
-
-	public CozinhaDto toCozinhaDto(Cozinha cozinha) {
-		
-		return CozinhaDto
-				.builder()
-				.nome(cozinha.getNome())
+		return Cozinha.builder()
+				.id(cozinhaUpdateRequestDto.getId())
+				.nome(cozinhaUpdateRequestDto.getNome())
 				.build();
 	}
 	
-	public CozinhaIdDto toCozinhaIdDto(Cozinha cozinha) {
+	public Cozinha toCozinha(CozinhaDeleteRequestDto cozinhaDeleteRequestDto) {
 		
-		return CozinhaIdDto
-				.builder()
+		return Cozinha.builder()
+				.id(cozinhaDeleteRequestDto.getId())
+				.build();
+	}
+	
+	public CozinhaResponseDto toCozinhaResponseDto(Cozinha cozinha) {
+		
+		return CozinhaResponseDto.builder()
 				.id(cozinha.getId())
 				.nome(cozinha.getNome())
 				.build();
+	}
+	
+	public List<CozinhaResponseDto> toCozinhaListResponseDto(List<Cozinha> cozinhaList) {
+		
+		return cozinhaList.stream().map(this::toCozinhaResponseDto).toList();
 	}
 	
 }
