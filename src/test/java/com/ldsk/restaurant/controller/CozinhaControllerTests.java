@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ldsk.restaurant.dto.CozinhaDto;
+import com.ldsk.restaurant.dto.CozinhaUpdateRequestDto;
 import com.ldsk.restaurant.mapper.CozinhaMapper;
 import com.ldsk.restaurant.service.CozinhaService;
 
@@ -43,7 +43,7 @@ class CozinhaControllerTests {
 	@Test
 	void itShouldAddCozinhaAndReturnCreated() {
 		
-		CozinhaDto cozinhaDto = CozinhaDto.builder().nome("Americana").build();
+		CozinhaUpdateRequestDto cozinhaDto = CozinhaUpdateRequestDto.builder().nome("Americana").build();
 		
 		BDDMockito.given(cozinhaService.addCozinha(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArguments()));
 		
