@@ -82,5 +82,10 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 ### Notas da versão do projeto (2023.03.05.a) - 
 
+* Implementação da estrutura básica do projeto: models, repositories, services, DTO's, VO, mappers, controllers, e tratamento global de exceptions.
+
+* Utilização inicial do Flyway para versionamento dos scripts SQL. E execução do 'afterMigrate' para realizar o *database seeding* nas tabelas de Restaurante e Cozinha, com o intuito de facilitar o processo de desenvolvimento.
+
 * Adicionada documentação do projeto e API (Swagger).
+
 * Implementação de testes unitários iniciais das camadas service e repository.
