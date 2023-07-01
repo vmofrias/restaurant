@@ -62,8 +62,6 @@ public class CozinhaService {
 		
 		try {
 			
-			if(cozinha.getId() == null) cozinha.setId(0L); 
-				
 			Optional<Cozinha> cozinhaOptional = cozinhaRepository.findById(cozinha.getId());
 			
 			if(cozinhaOptional.isEmpty()) {
