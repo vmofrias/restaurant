@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ldsk.restaurant.dto.CozinhaDto;
-import com.ldsk.restaurant.dto.CozinhaIdDto;
+import com.ldsk.restaurant.dto.CozinhaAddRequestDto;
+import com.ldsk.restaurant.dto.CozinhaUpdateRequestDto;
+import com.ldsk.restaurant.dto.CozinhaDeleteRequestDto;
+import com.ldsk.restaurant.dto.CozinhaNameRequestDto;
+import com.ldsk.restaurant.dto.CozinhaResponseDto;
 import com.ldsk.restaurant.mapper.CozinhaMapper;
-import com.ldsk.restaurant.model.Cozinha;
 import com.ldsk.restaurant.service.CozinhaService;
 
 @RestController
@@ -30,43 +32,43 @@ public class CozinhaController {
 	private CozinhaMapper cozinhaMapper;
 	
 	@GetMapping
-	public ResponseEntity<List<Cozinha>> listAll() {
+	public ResponseEntity<List<CozinhaResponseDto>> listAll() {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.getCozinhas());
+		return ResponseEntity.status(HttpStatus.OK).body(cozinhaMapper.toCozinhaListResponseDto(cozinhaService.getCozinhas()));
 	}
 	
 	@PostMapping(value = "/nome")
-	public ResponseEntity<CozinhaIdDto> listByName(@RequestBody CozinhaDto cozinhaDto) {
+	public ResponseEntity<CozinhaResponseDto> listByName(@RequestBody CozinhaNameRequestDto cozinhaNameRequestDto) {
 		
-		CozinhaIdDto cozinhaResponseIdDto = cozinhaMapper.toCozinhaIdDto(
-				cozinhaService.getCozinhaByNome(cozinhaMapper.toCozinha(cozinhaDto)));
+		CozinhaResponseDto cozinhaResponseDto = cozinhaMapper.toCozinhaResponseDto(
+				cozinhaService.getCozinhaByNome(cozinhaMapper.toCozinha(cozinhaNameRequestDto)));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponseIdDto);
+		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponseDto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<CozinhaIdDto> addCozinha(@RequestBody CozinhaDto cozinhaDto) {
+	public ResponseEntity<CozinhaResponseDto> addCozinha(@RequestBody CozinhaAddRequestDto cozinhaAddRequestDto) {
 		
-		CozinhaIdDto cozinhaResponseIdDto = cozinhaMapper.toCozinhaIdDto(
-				cozinhaService.addCozinha(cozinhaMapper.toCozinha(cozinhaDto)));
+		CozinhaResponseDto cozinhaResponseDto = cozinhaMapper.toCozinhaResponseDto(
+				cozinhaService.addCozinha(cozinhaMapper.toCozinha(cozinhaAddRequestDto)));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaResponseIdDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaResponseDto);
 	}
 	
 	@PutMapping
-	public ResponseEntity<CozinhaIdDto> updateCozinha(@RequestBody CozinhaIdDto cozinhaIdDto) {
+	public ResponseEntity<CozinhaResponseDto> updateCozinha(@RequestBody CozinhaUpdateRequestDto cozinhaUpdateRequestDto) {
 		
-		CozinhaIdDto cozinhaResponseIdDto = cozinhaMapper.toCozinhaIdDto(
-				cozinhaService.updateCozinha(cozinhaMapper.toCozinha(cozinhaIdDto)));
+		CozinhaResponseDto cozinhaResponseDto = cozinhaMapper.toCozinhaResponseDto(
+				cozinhaService.updateCozinha(cozinhaMapper.toCozinha(cozinhaUpdateRequestDto)));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponseIdDto);
+		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponseDto);
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<String> deleteCozinhaById(@RequestBody CozinhaIdDto cozinhaIdDto) {
+	public ResponseEntity<String> deleteCozinhaById(@RequestBody CozinhaDeleteRequestDto cozinhaDeleteRequestDto) {
 		
 		String cozinhaResponse = cozinhaService
-				.deleteCozinhaById(cozinhaMapper.toCozinha(cozinhaIdDto));
+				.deleteCozinhaById(cozinhaMapper.toCozinha(cozinhaDeleteRequestDto));
 			
 		return ResponseEntity.status(HttpStatus.OK).body(cozinhaResponse);
 	}
