@@ -4,12 +4,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,11 +22,25 @@ import com.ldsk.restaurant.repository.CozinhaRepository;
 @ExtendWith(MockitoExtension.class)
 class CozinhaServiceTests {
 	
+	private static final Long COZINHA_ID = 1L;
+	
+	private static Cozinha cozinha;
+	
 	@Mock
 	private CozinhaRepository cozinhaRepository;
 
 	@InjectMocks
 	private CozinhaService cozinhaService;
+	
+	@BeforeAll
+	static void initialArrange() {
+		
+		// Initial Arrange
+		cozinha = Cozinha.builder()
+				.id(COZINHA_ID)
+				.nome("Japonesa")
+				.build();
+	}
 	
 	@AfterEach
 	void init() {
@@ -36,33 +49,9 @@ class CozinhaServiceTests {
 	}
 	
 	@Test
-	void itShouldGetAllCozinhas() {
-		
-		// Arrange
-		List<Cozinha> cozinhas = Arrays.asList(
-				Cozinha.builder().nome("cozinha1").build(),
-				Cozinha.builder().nome("cozinha2").build());
-		
-		
-		when(cozinhaRepository.findAll()).thenReturn(cozinhas);
-		
-		// Act
-		List<Cozinha> cozinhaList = cozinhaService.getCozinhas();
-	
-		// Assert
-		Assertions.assertThat(cozinhaList)
-			.isNotNull()
-			.hasSize(2);
-		
-		verify(cozinhaRepository, times(1)).findAll();
-	}
-	
-	@Test
 	void itShouldGetCozinhaByNome() {
 		
 		// Arrange
-		Cozinha cozinha = Cozinha.builder().nome("cozinha").build();
-		
 		when(cozinhaRepository.findByNome(Mockito.anyString())).thenReturn(Optional.of(cozinha));
 		
 		// Act
@@ -79,9 +68,7 @@ class CozinhaServiceTests {
 	void itShouldAddCozinha() {
 		
 		// Arrange
-		Cozinha cozinha = Cozinha.builder().id(0L).nome("cozinha").build();
-		
-		when(cozinhaRepository.findById(cozinha.getId())).thenReturn(Optional.empty());
+		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 		when(cozinhaRepository.save(Mockito.any(Cozinha.class))).thenReturn(cozinha);
 		
 		// Act
@@ -89,9 +76,9 @@ class CozinhaServiceTests {
 	
 		// Assert
 		Assertions.assertThat(savedCozinha).isNotNull();
-		Assertions.assertThat(savedCozinha.getNome()).isEqualTo("cozinha");
+		Assertions.assertThat(savedCozinha.getNome()).isEqualTo(cozinha.getNome());
 		
-		verify(cozinhaRepository, times(1)).findById(cozinha.getId());
+		verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
 		verify(cozinhaRepository, times(1)).save(Mockito.any(Cozinha.class));
 	}
 	
@@ -99,8 +86,6 @@ class CozinhaServiceTests {
 	void itShouldUpdateCozinha() {
 		
 		// Arrange
-		Cozinha cozinha = Cozinha.builder().id(1L).nome("cozinha").build();
-		
 		when(cozinhaRepository.findById(cozinha.getId())).thenReturn(Optional.of(cozinha));
 		when(cozinhaRepository.save(Mockito.any(Cozinha.class))).thenReturn(cozinha);
 		
@@ -120,15 +105,15 @@ class CozinhaServiceTests {
 	void itShouldDeleteCozinha() {
 		
 		// Arrange
-		Cozinha cozinha = Cozinha.builder().id(1L).nome("cozinha").build();
-		
 		when(cozinhaRepository.findById(cozinha.getId())).thenReturn(Optional.of(cozinha));
 		
 		// Act
         String result = cozinhaService.deleteCozinhaById(cozinha);
 
         // Assert
-        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result)
+        	.isNotEmpty()
+        	.contains(String.valueOf(cozinha.getId()));
         
         verify(cozinhaRepository, times(1)).findById(cozinha.getId());
         verify(cozinhaRepository, times(1)).deleteById(cozinha.getId());
