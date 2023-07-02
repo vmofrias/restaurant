@@ -21,6 +21,8 @@ import com.ldsk.restaurant.dto.RestauranteUpdateRequestDto;
 import com.ldsk.restaurant.mapper.RestauranteMapper;
 import com.ldsk.restaurant.service.RestauranteService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/restaurante")
 public class RestauranteController {
@@ -38,7 +40,7 @@ public class RestauranteController {
 	}
 	
 	@PostMapping(value = "/nome")
-	public ResponseEntity<RestauranteResponseDto> listByName(@RequestBody RestauranteNameRequestDto restauranteNameRequestDto) {
+	public ResponseEntity<RestauranteResponseDto> listByName(@RequestBody @Valid RestauranteNameRequestDto restauranteNameRequestDto) {
 		
 		RestauranteResponseDto restauranteResponseDto = restauranteMapper.toRestauranteResponseDto(
 				restauranteService.getRestaurantByNome(restauranteMapper.toRestaurante(restauranteNameRequestDto)));
@@ -47,7 +49,7 @@ public class RestauranteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<RestauranteResponseDto> addRestaurante(@RequestBody RestauranteAddRequestDto restauranteAddRequestDto) {
+	public ResponseEntity<RestauranteResponseDto> addRestaurante(@RequestBody @Valid RestauranteAddRequestDto restauranteAddRequestDto) {
 		
 		RestauranteResponseDto restauranteResponseDto = restauranteMapper.toRestauranteResponseDto(
 				restauranteService.addRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteAddRequestDto)));
@@ -56,7 +58,7 @@ public class RestauranteController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<RestauranteResponseDto> updateRestaurante(@RequestBody RestauranteUpdateRequestDto restauranteUpdateRequestDto) {
+	public ResponseEntity<RestauranteResponseDto> updateRestaurante(@RequestBody @Valid RestauranteUpdateRequestDto restauranteUpdateRequestDto) {
 		
 		RestauranteResponseDto restauranteResponseDto = restauranteMapper.toRestauranteResponseDto(
 				restauranteService.updateRestaurante(restauranteMapper.toRestauranteWithCozinhaSearch(restauranteUpdateRequestDto)));
@@ -65,7 +67,7 @@ public class RestauranteController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<String> deleteRestauranteById(@RequestBody RestauranteDeleteRequestDto restauranteDeleteRequestDto) {
+	public ResponseEntity<String> deleteRestauranteById(@RequestBody @Valid RestauranteDeleteRequestDto restauranteDeleteRequestDto) {
 		
 		String restauranteResponse = restauranteService
 				.deleteRestauranteById(restauranteMapper.toRestaurante(restauranteDeleteRequestDto));
