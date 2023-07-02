@@ -80,12 +80,8 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 `http://localhost:8080/swagger-ui/index.html`
 
-### Notas da versão do projeto (2023.03.05.a) - 
+### Notas da versão do projeto (2023.07.01.a) - 
 
-* Implementação da estrutura básica do projeto: models, repositories, services, DTO's, VO, mappers, controllers, e tratamento global de exceptions.
+* Spring Security: implementação de Usuário e Roles; persistência de usuários no banco de dados com senha encriptada utilizando BCrypt e criação de UserDetailsService customizado.
 
-* Utilização inicial do Flyway para versionamento dos scripts SQL. E execução do 'afterMigrate' para realizar o *database seeding* nas tabelas de Restaurante e Cozinha, com o intuito de facilitar o processo de desenvolvimento.
-
-* Adicionada documentação do projeto e API (Swagger).
-
-* Implementação de testes unitários iniciais das camadas service e repository.
+* Criação de estrutura para autenticação e autorização utilizando token JWT.
