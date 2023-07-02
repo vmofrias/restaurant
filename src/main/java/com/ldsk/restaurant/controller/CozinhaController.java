@@ -21,6 +21,8 @@ import com.ldsk.restaurant.dto.CozinhaResponseDto;
 import com.ldsk.restaurant.mapper.CozinhaMapper;
 import com.ldsk.restaurant.service.CozinhaService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/cozinha")
 public class CozinhaController {
@@ -38,7 +40,7 @@ public class CozinhaController {
 	}
 	
 	@PostMapping(value = "/nome")
-	public ResponseEntity<CozinhaResponseDto> listByName(@RequestBody CozinhaNameRequestDto cozinhaNameRequestDto) {
+	public ResponseEntity<CozinhaResponseDto> listByName(@RequestBody @Valid CozinhaNameRequestDto cozinhaNameRequestDto) {
 		
 		CozinhaResponseDto cozinhaResponseDto = cozinhaMapper.toCozinhaResponseDto(
 				cozinhaService.getCozinhaByNome(cozinhaMapper.toCozinha(cozinhaNameRequestDto)));
@@ -47,7 +49,7 @@ public class CozinhaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CozinhaResponseDto> addCozinha(@RequestBody CozinhaAddRequestDto cozinhaAddRequestDto) {
+	public ResponseEntity<CozinhaResponseDto> addCozinha(@RequestBody @Valid CozinhaAddRequestDto cozinhaAddRequestDto) {
 		
 		CozinhaResponseDto cozinhaResponseDto = cozinhaMapper.toCozinhaResponseDto(
 				cozinhaService.addCozinha(cozinhaMapper.toCozinha(cozinhaAddRequestDto)));
@@ -56,7 +58,7 @@ public class CozinhaController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<CozinhaResponseDto> updateCozinha(@RequestBody CozinhaUpdateRequestDto cozinhaUpdateRequestDto) {
+	public ResponseEntity<CozinhaResponseDto> updateCozinha(@RequestBody @Valid CozinhaUpdateRequestDto cozinhaUpdateRequestDto) {
 		
 		CozinhaResponseDto cozinhaResponseDto = cozinhaMapper.toCozinhaResponseDto(
 				cozinhaService.updateCozinha(cozinhaMapper.toCozinha(cozinhaUpdateRequestDto)));
@@ -65,7 +67,7 @@ public class CozinhaController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<String> deleteCozinhaById(@RequestBody CozinhaDeleteRequestDto cozinhaDeleteRequestDto) {
+	public ResponseEntity<String> deleteCozinhaById(@RequestBody @Valid CozinhaDeleteRequestDto cozinhaDeleteRequestDto) {
 		
 		String cozinhaResponse = cozinhaService
 				.deleteCozinhaById(cozinhaMapper.toCozinha(cozinhaDeleteRequestDto));
