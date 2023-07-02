@@ -53,18 +53,18 @@ public class ApiExceptionHandler {
 					cozinhaException.getHttpStatus());
 	}
 	
-	@ExceptionHandler(UsuarioException.class)
-	public ResponseEntity<ApiExceptionDetailsVo> handleUsuarioException(UsuarioException usuarioException) {
+	@ExceptionHandler(AuthException.class)
+	public ResponseEntity<ApiExceptionDetailsVo> handleAuthException(AuthException authException) {
 		
-		log.error(REQUISICAO_PROCESSAMENTO_ERRO, usuarioException.getMessage());
+		log.error(REQUISICAO_PROCESSAMENTO_ERRO, authException.getMessage());
 		
 		return new ResponseEntity<>(
-				ApiExceptionDetailsVo.builder().title(usuarioException.getTitle())
-					.httpStatus(usuarioException.getHttpStatus().value())
-					.message(usuarioException.getMessage())
-					.details(usuarioException.getDetails())
+				ApiExceptionDetailsVo.builder().title(authException.getTitle())
+					.httpStatus(authException.getHttpStatus().value())
+					.message(authException.getMessage())
+					.details(authException.getDetails())
 					.timestamp(LocalDateTime.now()).build(),
-					usuarioException.getHttpStatus());
+					authException.getHttpStatus());
 	}	
 	
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
