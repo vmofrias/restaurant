@@ -1,8 +1,13 @@
 DELETE FROM restaurant_schema.restaurante;
 DELETE FROM restaurant_schema.cozinha;
+DELETE FROM restaurant_schema.usuario_roles;
+DELETE FROM restaurant_schema.usuario;
+DELETE FROM restaurant_schema.role;
 
 ALTER SEQUENCE restaurant_schema.restaurante_id_seq RESTART 1;
 ALTER SEQUENCE restaurant_schema.cozinha_id_seq RESTART 1;
+ALTER SEQUENCE restaurant_schema.usuario_id_seq RESTART 1;
+ALTER SEQUENCE restaurant_schema.role_id_seq RESTART 1;
 
 INSERT INTO restaurant_schema.cozinha(nome) VALUES ('Brasileira');
 INSERT INTO restaurant_schema.cozinha(nome) VALUES ('Japonesa');
@@ -16,3 +21,7 @@ INSERT INTO restaurant_schema.cozinha(nome) VALUES ('Norte Americana');
 INSERT INTO restaurant_schema.restaurante(email_owner, nome, taxa_frete, cozinha_id)  VALUES ('vmofrias@gmail.com', 'Restaurante do Vinicius', 10.0, 1);
 INSERT INTO restaurant_schema.restaurante(email_owner, nome, taxa_frete, cozinha_id)  VALUES ('ldskmain@gmail.com', 'Restaurante do LDSK', 15.0, 2);
 INSERT INTO restaurant_schema.restaurante(email_owner, nome, taxa_frete, cozinha_id)  VALUES ('bia@gmail.com', 'Restaurante da Bibia', 5.0, 3);
+
+
+INSERT INTO restaurant_schema.role(name) VALUES ('ADMIN');
+INSERT INTO restaurant_schema.role(name) VALUES ('USER');
