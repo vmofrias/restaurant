@@ -12,21 +12,6 @@ Projeto básico com foco nas boas práticas, tratamento de exceptions, testes au
 
 ## Variáveis de Ambiente
 
-### PostgreSQL
-
-Caso queira executar o *PostgreSQL* via container pelo docker-compose, você vai precisar definir os valores das seguintes variáveis de ambiente no arquivo **postgres-db.env**, que se encontra no diretório **/config** do projeto.   
-
-| *POSTGRES*  |  *DESCRIÇÃO* |
-|---|---|
-|  `POSTGRES_USER` | Define o nome do usuário que irá ser criado com os poderes de Super Usuário do banco.  |  
-| `POSTGRES_PASSWORD`  | Define a senha para este usuário. |
-| `POSTGRES_DB`  |  Define o nome para o database que será criado quando a imagem for iniciada pela primeira vez. Se não for especificado, o valor do POSTGRES_USER será usado para isso.|
-
-
-#### - O nome para o database que está sendo utilizado como padrão no projeto é **`restaurant`**.
-
-### Restaurant Application
-
 Para rodar essa aplicação, você vai precisar definir os valores das seguintes variáveis de ambiente no local de execução do projeto. 
 
 | *APPLICATION*  |  *DESCRIÇÃO* |
@@ -40,19 +25,9 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 #### - Caso não tenha configurado um novo usuário no banco de dados, insira as credenciais do Super Usuário que foi criado quando a imagem do *PostgreSQL* foi iniciada.
 
-## Como subir o PostgreSQL
+## Como subir o projeto
 
-#### - Digite o seguinte comando utilizando o docker-compose.yml:
-
-```bash
-  docker compose up postgres-db
-```
-
-#### ou
-
-#### - Utilize-o em seu modo nativo fazendo o download do mesmo em [PostgreSQL Downloads](https://www.postgresql.org/download/). 
-
-## Como subir o Restaurant Application
+#### - Configure e execute o [PostgreSQL](./postgresql.md).
 
 #### - Clone o projeto com o Git e navegue até o diretório do mesmo.
 
