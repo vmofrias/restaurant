@@ -1,4 +1,4 @@
-package com.ldsk.restaurant.config;
+package com.ldsk.restaurant.security;
 
 import java.io.IOException;
 
