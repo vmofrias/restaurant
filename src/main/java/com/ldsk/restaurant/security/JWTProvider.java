@@ -1,8 +1,9 @@
-package com.ldsk.restaurant.config;
+package com.ldsk.restaurant.security;
 
 import java.security.Key;
 import java.util.Date;
 
+import org.flywaydb.core.internal.util.StringUtils;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JWTProvider {
@@ -20,6 +22,8 @@ public class JWTProvider {
 	private static final int HORAS = 60 * MINUTOS;
 	private static final int DIAS = 24 * HORAS;
 	private static final int JWT_EXPIRATION = 1 * DIAS;
+	
+	private static final String BEARER_PREFIX = "Bearer ";
 	
 	private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -55,8 +59,20 @@ public class JWTProvider {
 			return true;
 		} catch (Exception e) {
 
-			throw new AuthenticationCredentialsNotFoundException("JWT was expired or is incorrect.");
+			throw new AuthenticationCredentialsNotFoundException("Token JWT expirou ou está incorreto.");
 		}
+	}
+	
+	public String getJWTFromRequest(HttpServletRequest request) {
+		
+		String bearerToken = request.getHeader("Authorization");
+		
+		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+			
+			return bearerToken.replace(BEARER_PREFIX, "");
+		}
+		
+		return null;
 	}
 	
 }
