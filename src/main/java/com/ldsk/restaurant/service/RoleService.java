@@ -18,11 +18,6 @@ public class RoleService {
 	private static final String ERRO_REQUISICAO = "Erro na requisição";
 	private static final String ERRO_SERVIDOR = "Erro no processamento da requisição";
 	
-	private static final String PREFIX = "ROLE_";
-	
-	private static final String ROLE_USER = "USER";
-	private static final String ROLE_ADMIN = "ADMIN";
-	
 	@Autowired
 	private RoleRepository roleRepository;
 
@@ -34,7 +29,7 @@ public class RoleService {
 			
 			if(roleOptional.isPresent()) {
 				
-				return handleRolesAndAuthorities(roleOptional.get());
+				return roleOptional.get();
 			} else {
 				
 				throw new EntityNotFoundException();
@@ -47,18 +42,6 @@ public class RoleService {
 			
 			throw new AuthException(e.getLocalizedMessage(), ERRO_SERVIDOR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
-	
-	private Role handleRolesAndAuthorities(Role role) {
-		
-		if(role.getName().equalsIgnoreCase(ROLE_USER) || role.getName().equalsIgnoreCase(ROLE_ADMIN)) {
-			
-			role.setName(PREFIX.concat(role.getName()));
-			
-			return role;
-		}
-		
-		return role;
 	}
 	
 }
