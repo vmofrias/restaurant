@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ldsk.restaurant.security.CustomUserDetailsService;
-import com.ldsk.restaurant.security.JWTProvider;
+import com.ldsk.restaurant.security.JWTUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	
 	@Autowired
-	private JWTProvider jwtProvider;
+	private JWTUtil jwtProvider;
 	
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
