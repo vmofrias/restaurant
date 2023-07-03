@@ -16,7 +16,7 @@ public class UsuarioService {
 	
 	private static final String ERRO_REQUISICAO = "Erro na requisição";
 	private static final String ERRO_SERVIDOR = "Erro no processamento da requisição";
-	private static final String USERNAME_NOT_FOUND_MESSAGE = "User details not found for the user: %s";
+	private static final String USERNAME_NOT_FOUND_MESSAGE = "User Details não foi encontrado para o usuário: %s";
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
