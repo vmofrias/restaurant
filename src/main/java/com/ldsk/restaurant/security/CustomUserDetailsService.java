@@ -1,4 +1,4 @@
-package com.ldsk.restaurant.config;
+package com.ldsk.restaurant.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +20,11 @@ import com.ldsk.restaurant.service.UsuarioService;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 	
+	private static final String PREFIX_ROLE = "ROLE_";
+	
+	private static final String ROLE_USER = "USER";
+	private static final String ROLE_ADMIN = "ADMIN";
+	
 	@Autowired
 	private UsuarioService usuarioService;
 	
@@ -28,12 +33,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 		Usuario usuario = usuarioService.getUsuarioByUsername(username);
 		
+		authorityToRoleConverter(usuario);
+		
 		return new User(usuario.getUsername(), usuario.getPassword(), mapRolesToAuthorities(usuario.getRoles()));
 	}
 
 	private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
 		
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+	}
+	
+	private void authorityToRoleConverter(Usuario usuario) {
+		
+		for(Role role : usuario.getRoles()) {
+			
+			if(role.getName().equalsIgnoreCase(ROLE_USER) || role.getName().equalsIgnoreCase(ROLE_ADMIN)) {
+				
+				role.setName(PREFIX_ROLE.concat(role.getName()));
+			}
+		}
 	}
 	
 }
