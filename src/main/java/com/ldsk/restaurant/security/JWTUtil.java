@@ -15,7 +15,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Component
-public class JWTProvider {
+public class JWTUtil {
 	
 	private static final int SEGUNDOS = 1000;
 	private static final int MINUTOS = 60 * SEGUNDOS;
