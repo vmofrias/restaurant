@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	
 	@Autowired
-	private JWTUtil jwtProvider;
+	private JWTUtil jwtUtil;
 	
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
@@ -29,11 +29,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		String token = jwtProvider.getJWTFromRequest(request);
+		String token = jwtUtil.getJWTFromRequest(request);
 		
-		if(StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
+		if(StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
 			
-			UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtProvider.getUsernameFromJWT(token));
+			UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtUtil.getUsernameFromJWT(token));
 			
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
