@@ -4,7 +4,6 @@ import java.security.Key;
 import java.util.Date;
 
 import org.flywaydb.core.internal.util.StringUtils;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Component
 public class JWTUtil {
 	
@@ -59,7 +60,8 @@ public class JWTUtil {
 			return true;
 		} catch (Exception e) {
 
-			throw new AuthenticationCredentialsNotFoundException("Token JWT expirou ou está incorreto.");
+			log.debug("Token JWT expirou ou está incorreto: ".concat(token));
+			return false;
 		}
 	}
 	
