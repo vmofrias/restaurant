@@ -32,7 +32,7 @@ public class RestauranteMapper {
 		Cozinha cozinha = cozinhaService.getCozinhaByNome(restauranteAddRequestDto.getNomeCozinha());
 		
 		return Restaurante.builder()
-				.id(restauranteAddRequestDto.getId())
+				.id(0L)
 				.emailOwner(restauranteAddRequestDto.getEmailOwner())
 				.nome(restauranteAddRequestDto.getNome())
 				.taxaFrete(restauranteAddRequestDto.getTaxaFrete())

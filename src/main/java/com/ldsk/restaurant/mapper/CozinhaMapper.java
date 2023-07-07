@@ -24,7 +24,7 @@ public class CozinhaMapper {
 	public Cozinha toCozinha(CozinhaAddRequestDto cozinhaAddRequestDto) {
 		
 		return Cozinha.builder()
-				.id(cozinhaAddRequestDto.getId())
+				.id(0L)
 				.nome(cozinhaAddRequestDto.getNome())
 				.build();
 	}

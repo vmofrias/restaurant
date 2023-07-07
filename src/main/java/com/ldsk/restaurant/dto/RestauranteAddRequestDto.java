@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RestauranteAddRequestDto {
 
-	private long id;
-
 	@NotBlank(message = "Campo email_owner é obrigatório")
 	@JsonProperty(value = "email_owner")
 	private String emailOwner;

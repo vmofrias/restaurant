@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CozinhaAddRequestDto {
 
-	private long id;
-	
 	@NotBlank(message = "Campo nome é obrigatório")
 	private String nome;
 	
