@@ -25,9 +25,9 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 ## Como subir o projeto
 
-#### - Configure e execute o [PostgreSQL](./postgresql.md).
-
 #### - Clone o projeto com o Git e navegue até o diretório do mesmo.
+
+#### - Configure e execute o [PostgreSQL](./postgresql.md).
 
 #### - Faça o build da aplicação com o *Maven*:
 
