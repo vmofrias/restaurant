@@ -38,7 +38,7 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 #### - Em seguida, execute o artefato da aplicação com o seguinte comando:
 
 ```bash
-  java -Ddb_host=localhost -Ddb_name=restaurant -Ddb_user=ldskadmin -Ddb_password=arrozdoce -jar target/restaurant-2023.07.01.a-SNAPSHOT.jar
+  java -Ddb_host=localhost -Ddb_name=restaurant -Ddb_user=ldskadmin -Ddb_password=arrozdoce -jar target/restaurant-2023.07.01.b-SNAPSHOT.jar
 ```
 
 #### ou
@@ -46,7 +46,7 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 #### - Caso não tenha modificado os valores *default* do `db_host` e `db_name`:
 
 ```bash
-  java -Ddb_user=ldskadmin -Ddb_password=arrozdoce -jar target/restaurant-2023.07.01.a-SNAPSHOT.jar
+  java -Ddb_user=ldskadmin -Ddb_password=arrozdoce -jar target/restaurant-2023.07.01.b-SNAPSHOT.jar
 ```
     
 ## Documentação da API
