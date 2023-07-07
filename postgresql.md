@@ -15,7 +15,7 @@ Caso queira executar o *PostgreSQL* via container pelo docker-compose, você vai
 
 ## Como subir o PostgreSQL
 
-#### - Digite o seguinte comando utilizando o docker-compose.yml:
+#### - No diretório do projeto, digite o seguinte comando utilizando o docker-compose.yml:
 
 ```bash
   docker compose up postgres-db
