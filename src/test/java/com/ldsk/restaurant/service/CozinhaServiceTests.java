@@ -1,9 +1,11 @@
 package com.ldsk.restaurant.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -15,7 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
+import com.ldsk.restaurant.exception.CozinhaException;
 import com.ldsk.restaurant.model.Cozinha;
 import com.ldsk.restaurant.repository.CozinhaRepository;
 
@@ -49,7 +53,7 @@ class CozinhaServiceTests {
 	}
 	
 	@Test
-	void itShouldGetCozinhaByNome() {
+	void whenGetCozinhaByNomeThenReturnACozinhaInstance() {
 		
 		// Arrange
 		when(cozinhaRepository.findByNome(Mockito.anyString())).thenReturn(Optional.of(cozinha));
@@ -65,7 +69,25 @@ class CozinhaServiceTests {
 	}
 	
 	@Test
-	void itShouldAddCozinha() {
+	void whenGetCozinhaByNomeThenReturnANoSuchElementException() {
+		
+		// Arrange
+		when(cozinhaRepository.findByNome(Mockito.anyString())).thenReturn(Optional.of(cozinha));
+		when(cozinhaService.getCozinhaByNome(cozinha)).thenThrow(new NoSuchElementException());
+		
+		// Act
+		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.getCozinhaByNome(cozinha));
+		
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não foi possível encontrar uma cozinha com o nome");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(cozinhaRepository, times(1)).findByNome(Mockito.anyString());		
+	}
+	
+	@Test
+	void whenAddCozinhaThenReturnSuccess() {
 		
 		// Arrange
 		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
