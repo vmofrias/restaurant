@@ -58,3 +58,5 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 * Spring Security: implementação de Usuário e Roles; persistência de usuários no banco de dados com senha encriptada utilizando BCrypt e criação de UserDetailsService customizado.
 
 * Criação de estrutura para autenticação e autorização de usuários utilizando token JWT.
+
+* Ajuste de testes automatizados utilizando BDD.

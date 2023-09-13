@@ -23,6 +23,8 @@ import com.ldsk.restaurant.exception.CozinhaException;
 import com.ldsk.restaurant.model.Cozinha;
 import com.ldsk.restaurant.repository.CozinhaRepository;
 
+import jakarta.persistence.EntityExistsException;
+
 @ExtendWith(MockitoExtension.class)
 class CozinhaServiceTests {
 	
@@ -105,7 +107,26 @@ class CozinhaServiceTests {
 	}
 	
 	@Test
-	void itShouldUpdateCozinha() {
+	void whenAddCozinhaThenReturnEntityExistsException() {
+		
+		// Arrange
+		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(cozinhaService.addCozinha(cozinha)).thenThrow(new EntityExistsException());
+		
+		// Act
+		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.addCozinha(cozinha));
+	
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não foi possível adicionar esta cozinha");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		//Ajustar Verify depois
+		//verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
+	}
+	
+	@Test
+	void whenUpdateCozinhaThenReturnSuccess() {
 		
 		// Arrange
 		when(cozinhaRepository.findById(cozinha.getId())).thenReturn(Optional.of(cozinha));
@@ -124,7 +145,7 @@ class CozinhaServiceTests {
 	}
 	
 	@Test
-	void itShouldDeleteCozinha() {
+	void whenDeleteCozinhaThenReturnSuccess() {
 		
 		// Arrange
 		when(cozinhaRepository.findById(cozinha.getId())).thenReturn(Optional.of(cozinha));
