@@ -24,8 +24,6 @@ import com.ldsk.restaurant.exception.CozinhaException;
 import com.ldsk.restaurant.model.Cozinha;
 import com.ldsk.restaurant.repository.CozinhaRepository;
 
-import jakarta.persistence.EntityExistsException;
-
 @ExtendWith(MockitoExtension.class)
 class CozinhaServiceTests {
 	
@@ -111,8 +109,7 @@ class CozinhaServiceTests {
 	void whenAddCozinhaThenReturnEntityExistsException() {
 		
 		// Arrange
-		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
-		when(cozinhaService.addCozinha(cozinha)).thenThrow(new EntityExistsException());
+		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(cozinha));
 		
 		// Act
 		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.addCozinha(cozinha));
@@ -122,7 +119,7 @@ class CozinhaServiceTests {
 		Assertions.assertThat(exception.getMessage()).contains("Não foi possível adicionar esta cozinha");
 		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 		
-		verify(cozinhaRepository, times(2)).findById(Mockito.anyLong());
+		verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
 	}
 	
 	@Test
@@ -130,7 +127,7 @@ class CozinhaServiceTests {
 		
 		// Arrange
 		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
-		when(cozinhaService.addCozinha(cozinha)).thenThrow(new DataIntegrityViolationException("Teste"));
+		when(cozinhaRepository.save(cozinha)).thenThrow(new DataIntegrityViolationException("Teste"));
 		
 		// Act
 		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.addCozinha(cozinha));
@@ -140,7 +137,8 @@ class CozinhaServiceTests {
 		Assertions.assertThat(exception.getMessage()).contains("A cozinha");
 		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 		
-		verify(cozinhaRepository, times(2)).findById(Mockito.anyLong());
+		verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
+		verify(cozinhaRepository, times(1)).save(cozinha);
 	}
 	
 	@Test
@@ -163,6 +161,23 @@ class CozinhaServiceTests {
 	}
 	
 	@Test
+	void whenUpdateCozinhaThenReturnNoSuchElementException() {
+		
+		// Arrange
+		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		
+		// Act
+		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.updateCozinha(cozinha));
+	
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não existe uma cozinha com");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+				
+		verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
+	}
+	
+	@Test
 	void whenDeleteCozinhaThenReturnSuccess() {
 		
 		// Arrange
@@ -178,6 +193,23 @@ class CozinhaServiceTests {
         
         verify(cozinhaRepository, times(1)).findById(cozinha.getId());
         verify(cozinhaRepository, times(1)).deleteById(cozinha.getId());
+	}
+	
+	@Test
+	void whenDeleteCozinhaThenReturnNoSuchElementException() {
+		
+		// Arrange
+		when(cozinhaRepository.findById(cozinha.getId())).thenReturn(Optional.empty());
+		
+		// Act
+		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.deleteCozinhaById(cozinha));
+			
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não existe uma cozinha com");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+						
+		verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
 	}
 	
 }
