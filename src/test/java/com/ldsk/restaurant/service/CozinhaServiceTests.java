@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 
 import com.ldsk.restaurant.exception.CozinhaException;
@@ -121,8 +122,25 @@ class CozinhaServiceTests {
 		Assertions.assertThat(exception.getMessage()).contains("Não foi possível adicionar esta cozinha");
 		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 		
-		//Ajustar Verify depois
-		//verify(cozinhaRepository, times(1)).findById(Mockito.anyLong());
+		verify(cozinhaRepository, times(2)).findById(Mockito.anyLong());
+	}
+	
+	@Test
+	void whenAddCozinhaThenReturnDataIntegrityViolationException() {
+		
+		// Arrange
+		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(cozinhaService.addCozinha(cozinha)).thenThrow(new DataIntegrityViolationException("Teste"));
+		
+		// Act
+		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.addCozinha(cozinha));
+	
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("A cozinha");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(cozinhaRepository, times(2)).findById(Mockito.anyLong());
 	}
 	
 	@Test
