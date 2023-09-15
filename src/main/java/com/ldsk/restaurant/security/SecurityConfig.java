@@ -29,7 +29,7 @@ public class SecurityConfig {
 	private static final String ADMIN_ROLE = "ADMIN";
 	
 	@Bean
-	public SecurityFilterChain customSecurityFilterChain(HttpSecurity http, JWTAuthEntryPoint jwtAuthEntryPoint) throws Exception {
+	SecurityFilterChain customSecurityFilterChain(HttpSecurity http, JWTAuthEntryPoint jwtAuthEntryPoint) throws Exception {
 		
 		http
 			.csrf().disable()
@@ -52,19 +52,19 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
+    JWTAuthenticationFilter jwtAuthenticationFilter() {
 		
         return new JWTAuthenticationFilter();
     }
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() {
 		
 		return new BCryptPasswordEncoder();
 	}
 	
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		
 		return authenticationConfiguration.getAuthenticationManager();
 	}
