@@ -53,7 +53,7 @@ Para rodar essa aplicação, você vai precisar definir os valores das seguintes
 
 `http://localhost:8080/swagger-ui/index.html`
 
-### Notas da versão do projeto (2023.07.01.a) - 
+### Notas da versão do projeto (2023.07.01) - 
 
 * Spring Security: implementação de Usuário e Roles; persistência de usuários no banco de dados com senha encriptada utilizando BCrypt e criação de UserDetailsService customizado.
 
