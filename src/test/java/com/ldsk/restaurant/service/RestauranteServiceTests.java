@@ -1,5 +1,6 @@
 package com.ldsk.restaurant.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,7 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 
+import com.ldsk.restaurant.exception.RestauranteException;
 import com.ldsk.restaurant.model.Cozinha;
 import com.ldsk.restaurant.model.Restaurante;
 import com.ldsk.restaurant.repository.RestauranteRepository;
@@ -54,7 +58,7 @@ class RestauranteServiceTests {
 	}
 	
 	@Test
-	void itShouldGetRestauranteByNome() {
+	void whenGetRestauranteByNomeThenReturnSuccess() {
 		
 		// Arrange
 		when(restauranteRepository.findByNome(Mockito.anyString())).thenReturn(Optional.of(restaurante));
@@ -70,7 +74,24 @@ class RestauranteServiceTests {
 	}
 	
 	@Test
-	void itShouldAddRestaurante() {
+	void whenGetRestauranteByNomeThenReturnNoSuchElementException() {
+		
+		// Arrange
+		when(restauranteRepository.findByNome(Mockito.anyString())).thenReturn(Optional.empty());
+		
+		// Act
+		RestauranteException exception = assertThrows(RestauranteException.class, () -> restauranteService.getRestaurantByNome(restaurante));
+		
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não foi possível encontrar um restaurante com este nome:");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(restauranteRepository, times(1)).findByNome(Mockito.anyString());	
+	}
+	
+	@Test
+	void whenAddRestauranteThenReturnSuccess() {
 		
 		// Arrange
 		when(restauranteRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
@@ -88,7 +109,43 @@ class RestauranteServiceTests {
 	}
 	
 	@Test
-	void itShouldUpdateRestaurante() {
+	void whenAddRestauranteThenReturnEntityExistsException() {
+		
+		// Arrange
+		when(restauranteRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurante));
+		
+		// Act
+		RestauranteException exception = assertThrows(RestauranteException.class, () -> restauranteService.addRestaurante(restaurante));
+		
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não foi possível adicionar este restaurante pois o id");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(restauranteRepository, times(1)).findById(Mockito.anyLong());	
+	}
+	
+	@Test
+	void whenAddRestauranteThenReturnDataIntegrityViolationException() {
+		
+		// Arrange
+		when(restauranteRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(restauranteRepository.save(restaurante)).thenThrow(DataIntegrityViolationException.class);
+		
+		// Act
+		RestauranteException exception = assertThrows(RestauranteException.class, () -> restauranteService.addRestaurante(restaurante));
+		
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("O restaurante com o nome");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(restauranteRepository, times(1)).findById(Mockito.anyLong());	
+		verify(restauranteRepository, times(1)).save(restaurante);
+	}
+	
+	@Test
+	void whenUpdateRestauranteThenReturnSuccess() {
 		
 		// Arrange
 		when(restauranteRepository.findById(restaurante.getId())).thenReturn(Optional.of(restaurante));
@@ -107,7 +164,24 @@ class RestauranteServiceTests {
 	}
 	
 	@Test
-	void itShouldDeleteRestaurante() {
+	void whenUpdateRestauranteThenReturnNoSuchElementException() {
+		
+		// Arrange
+		when(restauranteRepository.findById(restaurante.getId())).thenReturn(Optional.empty());
+		
+		// Act
+		RestauranteException exception = assertThrows(RestauranteException.class, () -> restauranteService.updateRestaurante(restaurante));
+		
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não existe um restaurante com id");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(restauranteRepository, times(1)).findById(Mockito.anyLong());	
+	}
+	
+	@Test
+	void whenDeleteRestauranteThenReturnSuccess() {
 		
 		// Arrange
 		when(restauranteRepository.findById(restaurante.getId())).thenReturn(Optional.of(restaurante));
@@ -122,6 +196,24 @@ class RestauranteServiceTests {
         
         verify(restauranteRepository, times(1)).findById(restaurante.getId());
         verify(restauranteRepository, times(1)).deleteById(restaurante.getId());
+	}
+	
+	@Test
+	void whenDeleteRestauranteThenReturnNoSuchElementException() {
+		
+		// Arrange
+		when(restauranteRepository.findById(restaurante.getId())).thenReturn(Optional.empty());
+		
+		// Act
+        RestauranteException exception = assertThrows(RestauranteException.class, () -> restauranteService.deleteRestauranteById(restaurante));
+
+        // Assert
+		// Assert
+		Assertions.assertThat(exception.getMessage()).isNotBlank();
+		Assertions.assertThat(exception.getMessage()).contains("Não existe um restaurante com id");
+		Assertions.assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+		
+		verify(restauranteRepository, times(1)).findById(Mockito.anyLong());
 	}
 	
 	
