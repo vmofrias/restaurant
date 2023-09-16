@@ -127,7 +127,7 @@ class CozinhaServiceTests {
 		
 		// Arrange
 		when(cozinhaRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
-		when(cozinhaRepository.save(cozinha)).thenThrow(new DataIntegrityViolationException("Teste"));
+		when(cozinhaRepository.save(cozinha)).thenThrow(DataIntegrityViolationException.class);
 		
 		// Act
 		CozinhaException exception = assertThrows(CozinhaException.class, () -> cozinhaService.addCozinha(cozinha));
